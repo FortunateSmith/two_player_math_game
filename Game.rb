@@ -1,0 +1,40 @@
+require "./Player"
+require "./Question"
+
+class Game 
+  def initialize
+    @player1 = Player.new("Player1",3)
+    @player2 = Player.new("Player2",3)
+    @current_player = @player1
+  end
+
+  def change_player
+    if @current_player == @player1
+      @current_player = @player2
+    else
+    @current_player = @player1
+    end
+  end
+
+  def play_game
+    qs1 = Question.new
+    puts "#{@current_player.name}: What does #{qs1.x} plus #{qs1.y} equal?"
+    print "> "
+    answer = gets.chomp
+    if answer.to_i == qs1.x + qs1.y
+      puts "#{@current_player.name}: YES! You are correct."
+    else
+      puts "#{@current_player.name}: Seriously? No!"
+      @current_player.reduce_lives
+    end
+    puts "P1: #{@player1.lives}/3 vs P2: #{@player2.lives}/3"
+    puts "# ----- NEW TURN -----"
+    lost = @current_player.lives == 0
+    change_player
+    if lost
+      puts "#{@current_player.name} wins with a score of #{@current_player.lives}/3"
+    else
+      play_game
+    end
+  end
+end
