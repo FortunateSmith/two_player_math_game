@@ -2,9 +2,15 @@ require "./Player"
 require "./Question"
 
 class Game 
+
   def initialize
-    @player1 = Player.new("Player1",3)
-    @player2 = Player.new("Player2",3)
+    print "Player 1 enter your name > "
+    @name1 = gets.chomp
+    print "Player 2 enter your name > "
+    @name2 = gets.chomp
+
+    @player1 = Player.new(@name1)
+    @player2 = Player.new(@name2)
     @current_player = @player1
   end
 
@@ -29,11 +35,12 @@ class Game
     end
     puts "P1: #{@player1.lives}/3 vs P2: #{@player2.lives}/3"
     puts "# ----- NEW TURN -----"
-    lost = @current_player.lives == 0
-    change_player
-    if lost
+    if @current_player.lives == 0
       puts "#{@current_player.name} wins with a score of #{@current_player.lives}/3"
+      puts "----- GAME OVER -----"
+      puts "Good bye!"
     else
+      change_player
       play_game
     end
   end
